@@ -1,10 +1,25 @@
 # JDBC로 Repository 레이어 로직을 구성하는 법
 
-JDBC의 DriveManager를 활용해 데이터를 최신화하는 로직을 구성해보자.
+## 1. DriverManager를 사용하는 방법
+
+JDBC의 DriverManager를 활용해 데이터를 최신화하는 로직을 구성해보자. 
+
+```java
+import java.sql.DriverManager;
+
+public class DBConnectionUtil {
+
+    public static Connection getConnection() {
+        DriverManager.getConnection("https~", "username", "password");
+    }
+}
+```
 
 ```java
 import lombok.extern.slf4j.Slf4j;
 import hello.jdbc.domain.Member;
+
+...
 
 @Slf4j
 public class EmployeeRepository {
@@ -36,8 +51,6 @@ public class EmployeeRepository {
         return DBConnectionUtil.getConnection();
     }
 }
-
-
 ```
 
 예시 코드에 포함된 `Statement` 객체는 쿼리 문자열, `PreparedStatement` 객체는 파라미터를 바인딩할 수 있는 기능이 추가된 쿼리 객체이다. `Employee`는 id값과 월급값 두가지를 가지는 엔티티이다. 
@@ -81,3 +94,75 @@ private void close(Connection con, Statement stmt, ResultSet result) {
 }
 ```
 
+## 2. 데이터소스 + 커넥션풀 조합을 사용하는 방법
+
+DB 커넥션을 거는 작업에 사용되는 리소스와 레이턴시를 줄이기 위해 미리 커넥션을 확보하고 이를 사용, 사용 후 반납, 반납된 커넥션을 재사용 하는 방법이 커넥션풀이다. 
+
+그리고 DriverManager을 사용할 땐 커넥션을 걸 때마다 url, 계정값으로 구성된 설정값이 사용되어 접속 정보를 수정해야할 때 일일히 커넥션을 거는 곳마다 수정해야되는 비효율적인 구조로 작동하기 때문에  
+이 문제를 해결하기 위해 DataSource 인터페이스가 만들어졌다. 
+
+DataSource는 인스턴스를 최초 생성할 때만 설정값을 사용하고, 그 인스턴스로 커넥션을 거는 방식으로 작동하는 인터페이스 설계를 갖는다.
+
+```java
+import lombok.extern.slf4j.Slf4j;
+import hello.jdbc.domain.Member;
+
+...
+
+@Slf4j
+public class EmployeeRepository {
+
+    private final DataSource dataSource;
+
+    public EmployeeRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public Employee save(Employee employee) {
+        String sql = "insert member(employee_id, salary) values (?, ?)";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.preparedStatement(sql);
+            pstmt.setString(1, member.getMemberId());
+            pstmt.setString(2, member.getMoney());
+            pstmt.executeUpdate();
+            return member;
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            pstmt.close();
+            con.close();
+        }
+    }
+
+    private void close(Connection con, Statement stmt, ResultSet result) {
+    
+        JdbcUtils.closeResultSet(rs);  // 닫아주는 로직도 보일러플레이트를 생성해내기 때문에 표준으로 만들어진게 있다. 그런 메서드들이 JdbcUtils에 있다.
+        JdbcUtils.closeStatement(stmt);
+        JdbcUtils.closeConnection(con);
+    }
+
+    if (con != null) {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            log.info("error = {}", e);
+        }
+    }
+
+    private Connection getConnection() throws SQLException {
+        Connection con = dataSource.getConnection();
+        return con.getConnection();
+    }
+}
+```
+
+
+
+# 참고 자료
+- [김영한님의 스프링 DB 1편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1/dashboard)
