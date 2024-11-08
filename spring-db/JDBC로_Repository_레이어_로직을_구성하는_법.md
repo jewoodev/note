@@ -146,7 +146,7 @@ public class EmployeeRepository {
         JdbcUtils.closeStatement(stmt);
         JdbcUtils.closeConnection(con);
     }
-
+ 
     if (con != null) {
         try {
             con.close();
@@ -162,6 +162,11 @@ public class EmployeeRepository {
 }
 ```
 
+## 3. 쿼리를 트랜잭션으로 묶기 위해 유의할 점
+
+여러 쿼리가 트랜잭션으로 묶이기 위해서는 트랜잭션으로 묶일 쿼리가 모두 실행되는 동안 커넥션이 유지되어야 한다. 커넥션이 끊기거나 중간에 다른 커넥션을 잡아야 한다면 다른 트랜잭션이 되기 때문이다.  
+그래서 Jdbc로 쿼리 로직이 담긴 메서드에서 커넥션을 닫는 `close();`를 없애야 한다.  
+따라서 메서드를 오버로딩해서 트랜잭션에 사용할 쿼리 메서드가 받는 파라미터에 커넥션을 추가해서 사용하면 유연한 로직을 만들기를 권장한다.
 
 
 # 참고 자료
