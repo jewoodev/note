@@ -19,7 +19,7 @@ public class DBConnectionUtil {
 import lombok.extern.slf4j.Slf4j;
 import hello.jdbc.domain.Member;
 
-...
+// ...
 
 @Slf4j
 public class EmployeeRepository {
@@ -66,29 +66,34 @@ JDBC가 DB 로직에서 반복적으로 사용되는 데이터베이스 연결 �
 
 
 ```java
-private void close(Connection con, Statement stmt, ResultSet result) {
+public class EmployeeRepository {
     
-    if (result != null) {
-        try {
-            result.close();
-        } catch (SQLException e) {
-            log.info("error = {}", e);
-        }
-    }
+    // ...
+    
+    private void close(Connection con, Statement stmt, ResultSet result) {
 
-    if (stmt != null) {
-        try {
-            stmt.close();
-        } catch (SQLException e) {
-            log.info("error = {}", e);
+        if (result != null) {
+            try {
+                result.close();
+            } catch (SQLException e) {
+                log.info("error = {}", e);
+            }
         }
-    }
 
-    if (con != null) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-            log.info("error = {}", e);
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                log.info("error = {}", e);
+            }
+        }
+
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                log.info("error = {}", e);
+            }
         }
     }
 }
@@ -107,7 +112,7 @@ DataSource는 인스턴스를 최초 생성할 때만 설정값을 사용하고,
 import lombok.extern.slf4j.Slf4j;
 import hello.jdbc.domain.Member;
 
-...
+// ...
 
 @Slf4j
 public class EmployeeRepository {
@@ -135,24 +140,15 @@ public class EmployeeRepository {
             log.error("db error", e);
             throw e;
         } finally {
-            pstmt.close();
-            con.close();
+            close(con, stmt, null);
         }
     }
 
     private void close(Connection con, Statement stmt, ResultSet result) {
-    
+
         JdbcUtils.closeResultSet(rs);  // 닫아주는 로직도 보일러플레이트를 생성해내기 때문에 표준으로 만들어진게 있다. 그런 메서드들이 JdbcUtils에 있다.
         JdbcUtils.closeStatement(stmt);
         JdbcUtils.closeConnection(con);
-    }
- 
-    if (con != null) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-            log.info("error = {}", e);
-        }
     }
 
     private Connection getConnection() throws SQLException {
@@ -167,7 +163,6 @@ public class EmployeeRepository {
 여러 쿼리가 트랜잭션으로 묶이기 위해서는 트랜잭션으로 묶일 쿼리가 모두 실행되는 동안 커넥션이 유지되어야 한다. 커넥션이 끊기거나 중간에 다른 커넥션을 잡아야 한다면 다른 트랜잭션이 되기 때문이다.  
 그래서 Jdbc로 쿼리 로직이 담긴 메서드에서 커넥션을 닫는 `close();`를 없애야 한다.  
 따라서 메서드를 오버로딩해서 트랜잭션에 사용할 쿼리 메서드가 받는 파라미터에 커넥션을 추가해서 사용하면 유연한 로직을 만들기를 권장한다.
-
 
 # 참고 자료
 - [김영한님의 스프링 DB 1편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1/dashboard)
