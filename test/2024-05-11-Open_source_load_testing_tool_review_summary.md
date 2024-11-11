@@ -6,6 +6,8 @@ tags : [Load testing tool]
 math : true
 ---
 
+이 글은 아래의 링크 자료를 번역한 글이다. 자신의 상황에 맞는 테스트 툴이 무엇인지 파악하는데 도움이 되길 바라는 의도를 가지고 있다.
+
 [https://grafana.com/blog/2020/03/03/open-source-load-testing-tool-review/](https://grafana.com/blog/2020/03/03/open-source-load-testing-tool-review/)
 
 ## 1. 리뷰에 앞서..
