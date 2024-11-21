@@ -26,8 +26,5 @@ Configuration 클래스에서 빈들을 등록해주지 않고 마치 그 빈들
 2. resources 디렉토리 하위에 `META_INF` 디렉토리를 생성해 `org.springframework.boot.autoconfigure.AutoConfiguration.imports` 라는 이름의 파일을 만든다. 
 3. 거기에 Auto Configuration 클래스의 패키지 경로를 넣어 jar 파일로 빌드하면 Auto Configuration 기능을 제공하는 라이브러리를 만들 수 있다.
 
-
-
-
 # 참고 자료
-- [김영한님의 스프링 DB 1편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-db-1/dashboard)
+- [김영한님의 스프링 부트- 핵심 원리와 활용](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%ED%95%B5%EC%8B%AC%EC%9B%90%EB%A6%AC-%ED%99%9C%EC%9A%A9/dashboard)
