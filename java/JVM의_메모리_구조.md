@@ -2,7 +2,7 @@
 
 JVM의 주요 영역에 대해 정리해보겠다. 각 영역은 다른 용도로 쓰인다.
 
-![img.png](../../blog_img/java/JVM의_메모리_구조/jvm_메모리_구조.png)
+![img.png](https://github.com/jewoodev/blog_img/blob/main/java/JVM%EC%9D%98_%EB%A9%94%EB%AA%A8%EB%A6%AC_%EA%B5%AC%EC%A1%B0/jvm_%EB%A9%94%EB%AA%A8%EB%A6%AC_%EA%B5%AC%EC%A1%B0.png?raw=true)
 
 ## 1. 메소드 영역
 
