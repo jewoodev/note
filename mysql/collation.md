@@ -44,3 +44,11 @@
 
 ---
 
+## 5. 대소문자를 구분하는 Collation 사용하기
+필자가 글을 적는 시점에서 MySQL 버전은 8.0.40 대를 이어가고 있는데, 이 때는 utf8mb4_general_* 같은 collation이 deprecated 된 것 같다.([공식문서](https://dev.mysql.com/doc/refman/8.4/en/charset-mysql.html))
+
+이후 버전 대에서는 선택할 수 있는 Collation이 다음과 같다.
+- `utf8mb4_0900_as_cs` : Accent Sensitive, 대소문자를 구분하는 것에 더해 악센트를 구분하는 collation이다. 예를 들어. `é`와 `e`를 다르게 취급한다.
+- `utf8mb4_0900_ai_cs` : Accent Insensitive, 악센트를 구분하지 않는다. é와 e를 동일하게 취급한다.
+
+이 두 Collation은 유니코드 9.0을 기반으로 한다. 
