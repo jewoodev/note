@@ -1,0 +1,48 @@
+<configuration>
+    <!-- 로그 파일이 저장될 기본 디렉토리 설정 -->
+    <property name="LOG_DIR" value="./log" />
+
+    <!-- 콘솔 출력용 Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 저장용 Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 로그 파일 경로 설정 -->
+        <file>${LOG_DIR}/application.log</file>
+
+        <!-- 로그 파일 롤링 정책 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 하루마다 새로운 로그 파일 생성 (yyyy-MM-dd 형식) -->
+            <fileNamePattern>${LOG_DIR}/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 보관할 최대 로그 파일 개수 -->
+            <maxHistory>30</maxHistory>
+            <!-- 로그 파일 크기가 10MB 이상이면 압축 -->
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- sql 관련 로그 설정 -->
+<!--    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE"/>-->
+<!--    </logger>-->
+
+<!--    <logger name="org.hibernate.type.descriptor.sql" level="TRACE" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE"/>-->
+<!--    </logger>-->
+
+    <!-- 로그 레벨 설정 -->
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
