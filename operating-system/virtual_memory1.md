@@ -48,7 +48,7 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
 
 - MIN(OPT): 가장 먼 미래에 참조되는 page를 replace 
 - 4 frames example
-  - ![oaor_4frames_example.png](../../blog_img/operating-system/virtual_memory1/oaor_4frames_example.png)
+  - ![oaor_4frames_example.png](https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/oaor_4frames_example.png?raw=true)
 - 미래의 참조를 어떻게 아는가?
   - Offline algorithm
 - 다른 알고리즘의 성능에 대한 upper bound 제공
@@ -56,7 +56,7 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
 
 ## FIFO Algorithm
 
-<img src="../../blog_img/operating-system/virtual_memory1/fifo_algorithm.png" width="70%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/fifo_algorithm.png?raw=true" width="70%">
 
 - FIFO Anomaly(Belady's Anomaly)
   - more frames !=> less page faults
@@ -65,7 +65,7 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
 
 - LRU: 가장 오래 전에 참조된 것을 지움
 
-<img src="../../blog_img/operating-system/virtual_memory1/lru_algorithm.png" width="60%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/lru_algorithm.png?raw=true" width="60%">
 
 ## LFU(Least Frequently Used) Algorithm
 
@@ -80,11 +80,11 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
 
 ## LRU와 LFU 알고리즘 예제
 
-<img src="../../blog_img/operating-system/virtual_memory1/example_of_lru_lfu.png" width="60%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/example_of_lru_lfu.png?raw=true" width="60%">
 
 ## LRU와 LFU 알고리즘의 구현
 
-<img src="../../blog_img/operating-system/virtual_memory1/impl_of_lru_lfu1.png" width="70%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/impl_of_lru_lfu1.png?raw=true" width="70%">
 
-<img src="../../blog_img/operating-system/virtual_memory1/impl_of_lru_lfu2.png" width="70%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/impl_of_lru_lfu2.png?raw=true" width="70%">
 
