@@ -42,7 +42,7 @@
   - reference string의 예
     - 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5.
 
-## Optimal Algorithm of Replacement 
+## 1. Optimal Algorithm of Replacement 
 
 page fault가 가장 적게 일어나도록 하는 알고리즘
 
@@ -54,20 +54,20 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
 - 다른 알고리즘의 성능에 대한 upper bound 제공
   - Belady's optimal algorithm, MIN, OPT 등으로 불림
 
-## FIFO Algorithm
+## 2. FIFO Algorithm
 
 <img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/fifo_algorithm.png?raw=true" width="70%">
 
 - FIFO Anomaly(Belady's Anomaly)
   - more frames !=> less page faults
 
-## LRU(Least Recently Used) Algorithm
+## 3. LRU(Least Recently Used) Algorithm
 
 - LRU: 가장 오래 전에 참조된 것을 지움
 
 <img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/lru_algorithm.png?raw=true" width="60%">
 
-## LFU(Least Frequently Used) Algorithm
+## 4. LFU(Least Frequently Used) Algorithm
 
 - LFU: 참조 횟수가 가장 적은 페이지를 지움
   - 최저 참조 함수인 page가 여럿 있는 경우
@@ -78,13 +78,32 @@ page fault가 가장 적게 일어나도록 하는 알고리즘
     - 참조 시점의 최근성을 반영하지 못함
     - LRU보다 구현이 복잡함
 
-## LRU와 LFU 알고리즘 예제
+### 4.1 LRU와 LFU 알고리즘 예제
 
 <img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/example_of_lru_lfu.png?raw=true" width="60%">
 
-## LRU와 LFU 알고리즘의 구현
+### 4.2 LRU와 LFU 알고리즘의 구현
 
 <img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/impl_of_lru_lfu1.png?raw=true" width="70%">
 
 <img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/virtual_memory1/impl_of_lru_lfu2.png?raw=true" width="70%">
 
+## 5. Backing store
+
+운영체제에서 backing store란, **주기억장치**(RAM)에서 사용하지 않는 데이터를 임시로 저장해두는 **보조기억장치**(디스크)를 말합니다. 주로 가상 메모리 시스템에서 사용됩니다.
+
+운영체제는 한정된 물리적 메모리(RAM)를 효율적으로 사용하기 위해 가상 메모리를 사용합니다. 모든 프로세스가 동시에 메모리에 올라갈 수 없기 때문에, 사용하지 않는 페이지를 디스크로 내보내고, 필요할 때 다시 불러오는 방식으로 동작합니다.
+
+이때 디스크의 일부분이 backing store로 사용됩니다. 보통 하드디스크(HDD)나 SSD의 swap 공간이나 **페이지 파일(page file)**이 backing store의 역할을 합니다.
+
+### 5.1 예시
+
+1. A 프로세스가 메모리 부족으로 일부 페이지를 디스크로 내보냄 → backing store에 저장
+2. 나중에 그 페이지가 다시 필요해짐 → backing store에서 다시 불러와 메모리에 적재
+
+### 5.2 핵심 포인트 요약
+
+- **backing store = 보조 기억장치 역할의 디스크 공간**
+- 가상 메모리 구현에 사용됨
+- 메모리에서 내보낸 데이터를 임시 저장
+- 다시 메모리에 올릴 수 있음 (swap in/out)
