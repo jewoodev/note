@@ -1,6 +1,6 @@
 part 1 개관
 
-Chapter 1. 서론 - 걍 읽어
+Chapter 1. 서론 - 걍 읽자
 
 Chapter 2. 운영체제 구조 - 제외
 
