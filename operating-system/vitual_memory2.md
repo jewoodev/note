@@ -41,3 +41,39 @@ LRU, LFU에서 필요로 하는 것을 운영체제는 알 수 없다(page defau
 - reference bit = 1 : 최근에 참조된 페이지
 - modified bit = 1 : 최근에 변경된 페이지(I/O를 동반하는 페이지)
 
+## 4. Page Frame의 Allocation
+
+- Allocation problem: 각 process에 얼마 만큼의 page frame을 할당할 것인가?
+- Allocation의 필요성
+  - 메모리 참조 명령어 수행 시 명령어, 데이터 등 여러 페이지 동시 참조
+    - 명령어 수행을 위해 최소한 할당되어야 하는 frame의 수가 있음
+  - Loop를 구성하는 page들은 한꺼번에 allocate 되는 것이 유리함
+    - 최소한의 allocation이 없으면 매 loop마다 page fault
+- Allocation scheme
+  - Equal allocation: 모든 프로세스에 똑같은 갯수 할당
+  - Proportional allocation: 프로세스 크기에 비례하여 할당
+  - Priority allocation: 프로세스의 priority에 따라 다르게 할당
+
+### 4.1 Global vs. Local Replacement
+
+- Global replacement
+  - Replace 시 다른 process에 할당된 frame을 빼앗아 올 수 있다.
+  - Process별 할당량을 조절하는 또 다른 방법임
+  - FIFO, LRU, LFU 등의 알고리즘을 global replacement로 사용 시에 할당
+  - Working set, PFF 알고리즘 사용
+- Local replacement
+  - 자신에게 할당된 frame 내에서만 replacement
+  - FIFO, LRU, LFU 등의 알고리즘을 process별로 운영 시
+
+### 4.2 Thrashing
+
+- 프로세스의 원활한 수행을 위해 필요한 최소한의 page frame의 갯수만큼을 할당받지 못한 경우 발생한다.
+- Page fault rate가 매우 높아진다.
+- CPU utilization이 낮아진다.
+- OS는 MPD(Multiprogramming degree)를 높여야 한다고 판단
+- 또 다른 프로세스가 시스템에 추가됨(higher MPD)
+- 프로세스 당 할당된 frame의 수가 더욱 감소
+- 프로세스는 page의 swap in / swap out 으로 매우 바쁨
+- 대부분의 시간에 CPU는 한가함
+- low throughput
+
