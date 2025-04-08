@@ -21,11 +21,11 @@
 
 종종 **ONT와 ONU**(Optical Network Unit)가 혼용되지만, 기술적으로 약간의 차이가 있습니다.
 
-| 항목 | ONT (Optical Network Terminator) | ONU (Optical Network Unit) |
-| -- | --- | --- |
-| **설치 위치** | 사용자의 집이나 사무실 (가입자 댁내 장비) | 아파트, 빌딩, 국지적인 중간 지점 |
-| **연결 방식** | 직접 OLT와 연결 | ONU를 거쳐 여러 사용자가 공유 |
-| **사용 환경** | FTTH(Fiber-to-the-Home) | FTTB(Fiber-to-the-Building), FTTC(Fiber-to-the-Curb) |
-| **트래픽 관리** | 개별 가입자 단위 관리 | 여러 가입자의 트래픽을 집계하여 OLT로 전달 |
+| 항목         | ONT (Optical Network Terminator) | ONU (Optical Network Unit)                           |
+|------------|----------------------------------|------------------------------------------------------|
+| **설치 위치**  | 사용자의 집이나 사무실 (가입자 댁내 장비)         | 아파트, 빌딩, 국지적인 중간 지점                                  |
+| **연결 방식**  | 직접 OLT와 연결                       | ONU를 거쳐 여러 사용자가 공유                                   |
+| **사용 환경**  | FTTH(Fiber-to-the-Home)          | FTTB(Fiber-to-the-Building), FTTC(Fiber-to-the-Curb) |
+| **트래픽 관리** | 개별 가입자 단위 관리                     | 여러 가입자의 트래픽을 집계하여 OLT로 전달                            |
 
 즉, **ONT는 개별 가정/기업에 직접 설치되는 장비**, **ONU는 여러 사용자가 공유하는 중간 지점 장비**라고 볼 수 있습니다.
