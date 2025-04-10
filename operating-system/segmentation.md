@@ -28,7 +28,7 @@
 
 ## Segmentation Hardware
 
-<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/segmentation/segmentation_hardware.png?raw=true" width="60%">
+<img src="https://github.com/jewoodev/blog_img/blob/main/operating-system/segmentation/segmentation_hardware.png?raw=true" alt="segmentation_hardware" width="60%">
 
 ## Segmentation Architecture (Cont.)
 
