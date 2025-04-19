@@ -27,3 +27,30 @@
 Windows의 경우 `%APPDATA%\Cursor `디렉토리를 전체 백업하면 됩니다.
 
 Cursor가 앞으로 이러한 기능을 공식적으로 지원할 가능성이 있지만, 현재는 위의 방법들을 사용해야 합니다.
+
+## 그냥 Extension list 를 관리하는 게 제일 깔끔?
+
+그냥 Extension list를 작성하고, 이를 참고해서 자기가 사용하는 모든 Cursor 에 동일하게 설치하거나 삭제하면 된다.
+
+1. Extension Pack for Java
+2. Dev Containvers - ms-vscode-remote
+3. Live Server
+4. Git Extension Pack
+5. Git History
+6. gitignore
+7. GitLens
+8. Gradle for Java
+9. IntelliCode
+10. IntelliCode API Usage Examples
+11. IntelliJ IDEA Keybindings
+12. Markdown All in
+13. Material Icon Theme
+14. Open in Github, Bitbucket, GitLab, ...
+15. Project Manager
+16. Pylance
+17. Python
+18. Python Debugger
+19. Spring Boot Dashboard
+20. Spring Boot Extension Pack
+21. Spring Initializer Java Support
+22. WSL
