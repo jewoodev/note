@@ -1,21 +1,19 @@
 ```json
 {
-    "git.autofetch": true,
-    "gitlens.defaultGravatarsStyle": "mp",
-    "workbench.preferredDarkColorTheme": "Visual Studio Dark",
+    "window.commandCenter": true,
     "workbench.colorTheme": "Cursor Dark Midnight",
+    "workbench.iconTheme": "material-icon-theme",
     "extensions.ignoreRecommendations": true,
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "redhat.telemetry.enabled": true,
-    "files.autoSave": "afterDelay",
-    "workbench.iconTheme": "material-icon-theme",
     "java.configuration.runtimes": [
         {
             "name": "JavaSE-17",
-            "path": "C:\\Program Files\\JDK\\jdk-17.0.8"
+            "path": "C:\\jdk\\jdk-17.0.12",
+            "default": true
         }
     ],
-    "java.jdt.ls.java.home": "C:\\Program Files\\JDK\\jdk-17.0.8",
+    "java.jdt.ls.java.home": "C:\\jdk\\jdk-21.0.7",
+    "files.autoSave": "afterDelay",
     "workbench.editor.showTabs": "none",
     "java.format.settings.url": ".settings/java-formatter.xml",
     "java.format.settings.profile": "GoogleStyle",
@@ -29,28 +27,28 @@
     ],
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.configuration.maven.userSettings": ".mvn/settings.xml",
-    "java.configuration.checkProjectSettingsExclusions": false,
-    "java.semanticHighlighting.enabled": true,
     "java.signatureHelp.enabled": true,
     "java.completion.enabled": true,
+    "java.compile.nullAnalysis.mode": "automatic",
     "java.completion.favoriteStaticMembers": [
         "org.junit.Assert.*",
         "org.junit.Assume.*",
         "org.junit.jupiter.api.Assertions.*",
-        "org.junit.jupiter.api.Assumptions.*",
-        "org.junit.jupiter.api.DynamicContainer.*",
-        "org.junit.jupiter.api.DynamicTest.*",
+        "org.assertj.core.api.Assertions.*",
         "org.mockito.Mockito.*",
         "org.mockito.ArgumentMatchers.*",
-        "org.mockito.Answers.*"
+        "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
+        "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"
     ],
     "java.debug.settings.hotCodeReplace": "auto",
     "java.debug.settings.forceBuildBeforeLaunch": true,
     "java.debug.settings.console": "integratedTerminal",
-    "spring-boot.ls.java.home": "C:\\Program Files\\JDK\\jdk-17.0.8",
-    "spring-boot.ls.trace.server": "verbose",
-    "spring-boot.ls.trace.server.verbosity": "verbose",
-    "spring-boot.ls.trace.server.port": 5005
+    "[java]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    }
 }
 ```
 
