@@ -15,9 +15,6 @@
     "java.jdt.ls.java.home": "C:\\jdk\\jdk-21.0.7",
     "files.autoSave": "afterDelay",
     "workbench.editor.showTabs": "none",
-    "java.format.settings.url": ".settings/java-formatter.xml",
-    "java.format.settings.profile": "GoogleStyle",
-    "java.format.enabled": true,
     "java.saveActions.organizeImports": true,
     "java.completion.importOrder": [
         "java",
@@ -48,7 +45,11 @@
         "editor.codeActionsOnSave": {
             "source.organizeImports": "explicit"
         },
-    }
+    },
+    "cursor.cpp.disabledLanguages": [
+        "plaintext"
+    ],
+    "java.import.gradle.java.home": "C:\\jdk\\jdk-17.0.12"
 }
 ```
 
