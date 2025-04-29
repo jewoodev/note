@@ -73,3 +73,30 @@ class UseFunctionInterface {
     }
 }
 ```
+
+--- 
+
+함수형 인터페이스를 시그니처로 갖는 메서드 내부에서는 그 인터페이스의 단일 추상 메서드의 파라미터를 자동으로 매핑해서 사용한다.
+
+예를 들어, `ReactiveAuthenticationManager`의 경우
+
+```java
+@FunctionalInterface
+public interface ReactiveAuthenticationManager {
+    Mono<Authentication> authenticate(Authentication authentication);
+}
+```
+
+```java
+@Bean
+public ReactiveAuthenticationManager authenticationManager() {
+    return authentication -> {
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            return Mono.just(authentication);
+        }
+        return Mono.error(new IllegalArgumentException("Invalid authentication type"));
+    };
+}
+```
+
+이렇게 authentication 을 사용해도 Java의 람다 표현식에서 파라미터를 명시적으로 선언하지 않아도 컴파일러가 컨텍스트에서 타입을 추론할 수 있어 문제가 없다.
