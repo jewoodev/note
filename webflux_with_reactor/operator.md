@@ -119,3 +119,80 @@ Reactor에서는 업스트림에서 emit되는 데이터를 변경하지 않고 
 ### 6.1 elapsed()
 
 emit된 데이터 사이의 경과 시간을 측정해서 Tuple<Long, T> 형태로 Downstream에 emit한다. 첫 번째 데이터는 onSubscribe() 이벤트가 발생한 시점과 비교해 측정한다.
+
+---
+
+### collectList()
+
+1. **비동기 작업의 결과 수집**
+    - Flux.fromIterable(request.participantIds())로 시작된 스트림은 여러 개의 사용자 ID를 처리한다.
+    - 각 ID에 대해 userService.getById()를 호출하면 각각의 결과가 개별적으로 방출된다.
+    - 이 개별적인 결과들을 하나의 리스트로 모아서 한 번에 처리해야 한다.
+2. **모든 참여자의 존재 여부 확인**
+    - 채팅방을 생성하기 전에 모든 참여자가 존재하는지 확인해야 한다.
+    - collectList()를 사용하면 모든 사용자 조회가 완료될 때까지 기다린 후, 결과를 한 번에 검증할 수 있다.
+    - 만약 collectList()를 사용하지 않으면, 각 사용자 조회 결과를 개별적으로 처리해야 하며, 전체 검증이 어려워진다.
+3. **에러 처리의 일관성**
+    - collectList()를 사용하면 모든 사용자 조회가 완료된 후에 한 번에 에러를 발생시킬 수 있다.
+    - 이는 "하나라도 존재하지 않는 사용자가 있으면 실패"라는 요구사항을 명확하게 구현할 수 있게 해준다.
+
+만약 collectList()를 사용하지 않는다면, 각 사용자 조회 결과를 개별적으로 처리해야 하고, 전체 검증 로직이 더 복잡해질 수 있다. collectList()를 사용함으로써 코드가 더 간단하고 명확해진다.
+
+## flatMap()과 flatMapMany()의 차이
+
+1. **flatMap**
+    - Mono를 반환하는 변환 작업에 사용된다
+    - 입력 스트림의 각 요소를 Mono로 변환하고, 그 결과를 하나의 Mono로 평탄화한다
+    - 예시:
+        ```java
+        Flux.fromIterable(request.participantIds())
+            .flatMap(id -> userService.getById(id))
+            .collectList()
+            .block();
+        ```
+2. **flatMapMany**
+    - Flux를 반환하는 변환 작업에 사용된다
+    - 입력 스트림의 각 요소를 Flux로 변환하고, 그 결과를 하나의 Flux로 평탄화한다
+    - 예시:
+        ```java
+        Flux.fromIterable(request.participantIds())
+            .flatMapMany(id -> userService.getById(id))
+            .collectList()
+            .block();
+        ```
+다음의 예시 코드의 경우엔
+
+```java
+return redisDao.getLastOnlineTime(lastOnlineTimeKey)
+        .flatMapMany(lastOnlineTime -> 
+            unreadChatRepository.findAllByUnreadUsername(userDetails.getUsername())
+                .filter(unreadChat -> unreadChat.getCreatedAt().isAfter(lastOnlineTime))
+                .map(UnreadChatResponse::from)
+        );
+```
+
+여기서 flatMapMany를 사용한 이유는:
+
+1. getLastOnlineTime은 Mono<LocalDateTime>을 반환한다
+2. 그 다음 findAllByUnreadUsername은 Flux<UnreadChat>을 반환한다
+3. 따라서 Mono에서 Flux로 변환하는 flatMapMany가 적절하다
+
+만약 flatMap을 사용했다면:
+
+```java
+return redisDao.getLastOnlineTime(lastOnlineTimeKey)
+        .flatMap(lastOnlineTime -> 
+            unreadChatRepository.findAllByUnreadUsername(userDetails.getUsername())
+                .filter(unreadChat -> unreadChat.getCreatedAt().isAfter(lastOnlineTime))
+                .map(UnreadChatResponse::from)
+                .next() // Flux를 Mono로 변환
+        );
+```
+
+이렇게 되면 여러 개의 오프라인 채팅 중 첫 번째 것만 반환하게 된다.
+
+정리하면:
+- `flatMap`: `Mono` → `Mono` 변환에 사용
+- `flatMapMany`: `Mono` → `Flux` 변환에 사용
+- `flatMap`을 `Flux`에서 사용하면 각 요소를 `Mono`로 변환하고 그 결과를 하나의 `Flux`로 평탄화
+- `flatMapMany`를 `Flux`에서 사용하면 각 요소를 `Flux`로 변환하고 그 결과를 하나의 `Flux`로 평탄화
