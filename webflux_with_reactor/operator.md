@@ -196,3 +196,71 @@ return redisDao.getLastOnlineTime(lastOnlineTimeKey)
 - `flatMapMany`: `Mono` → `Flux` 변환에 사용
 - `flatMap`을 `Flux`에서 사용하면 각 요소를 `Mono`로 변환하고 그 결과를 하나의 `Flux`로 평탄화
 - `flatMapMany`를 `Flux`에서 사용하면 각 요소를 `Flux`로 변환하고 그 결과를 하나의 `Flux`로 평탄화
+
+---
+
+## 구독 트리거 오퍼레이터
+
+1. subscribe() 계열:
+    - subscribe(): 기본 구독
+    - subscribe(Consumer<T> consumer): 각 요소 처리
+    - subscribe(Consumer<T> consumer, Consumer<Throwable> errorConsumer): 에러 처리 포함
+    - subscribe(Consumer<T> consumer, Consumer<Throwable> errorConsumer, Runnable completeConsumer): 완료 처리 포함
+    - subscribe(Consumer<T> consumer, Consumer<Throwable> errorConsumer, Runnable completeConsumer, Consumer<Subscription> subscriptionConsumer): 구독 객체 처리 포함
+2. block() 계열:
+    - block(): 다음 요소가 도착할 때까지 블로킹
+    - block(Duration timeout): 타임아웃 지정하여 블로킹
+    - blockFirst(): 첫 번째 요소만 블로킹
+    - blockFirst(Duration timeout): 타임아웃 지정하여 첫 번째 요소 블로킹
+    - blockLast(): 마지막 요소만 블로킹
+    - blockLast(Duration timeout): 타임아웃 지정하여 마지막 요소 블로킹
+3. toIterable() 계열:
+    - toIterable(): Iterable로 변환
+    - toIterable(int batchSize): 배치 크기 지정하여 Iterable로 변환
+    - toIterable(int batchSize, Supplier<Queue<T>> queueSupplier): 큐 공급자 지정하여 Iterable로 변환
+4. toStream() 계열:
+    - toStream(): Java 8 Stream으로 변환
+    - toStream(int batchSize): 배치 크기 지정하여 Stream으로 변환
+5. toFuture() 계열:
+    - toFuture(): CompletableFuture로 변환
+    - toFuture(T valueIfEmpty): 빈 경우 기본값 지정하여 CompletableFuture로 변환
+6. toProcessor() 계열:
+    - toProcessor(): Processor로 변환
+    - toProcessor(Supplier<Processor<T, T>> processorSupplier): 프로세서 공급자 지정하여 변환
+7. toMono() 계열:
+    - toMono(): Mono로 변환
+toMono(T valueIfEmpty): 빈 경우 기본값 지정하여 Mono로 변환
+8. toFlux() 계열:
+    - toFlux(): Flux로 변환
+9. toList() 계열:
+    - toList(): List로 변환
+    - toList(int expectedSize): 예상 크기 지정하여 List로 변환
+10. toMap() 계열:
+    - toMap(Function<T, K> keyMapper): Map으로 변환
+    - toMap(Function<T, K> keyMapper, Function<T, V> valueMapper): 키와 값 매퍼 지정하여 Map으로 변환
+    - toMap(Function<T, K> keyMapper, Function<T, V> valueMapper, Supplier<M> mapSupplier): 맵 공급자 지정하여 Map으로 변환
+11. toMultimap() 계열:
+    - toMultimap(Function<T, K> keyMapper): Multimap으로 변환
+    - toMultimap(Function<T, K> keyMapper, Function<T, V> valueMapper): 키와 값 매퍼 지정하여 Multimap으로 변환
+    - toMultimap(Function<T, K> keyMapper, Function<T, V> valueMapper, Supplier<M> mapSupplier): 맵 공급자 지정하여 Multimap으로 변환
+12. toSortedList() 계열:
+    - toSortedList(): 정렬된 List로 변환
+    - toSortedList(Comparator<T> comparator): 비교자 지정하여 정렬된 List로 변환
+13. toSortedList(int expectedSize) 계열:
+    - toSortedList(int expectedSize): 예상 크기 지정하여 정렬된 List로 변환
+    - toSortedList(int expectedSize, Comparator<T> comparator): 예상 크기와 비교자 지정하여 정렬된 List로 변환
+14. toArray() 계열:
+    - toArray(): Object[]로 변환
+    - toArray(IntFunction<T[]> generator): 배열 생성기 지정하여 변환
+15. toArray(Class<T> componentType) 계열:
+    - toArray(Class<T> componentType): 특정 타입의 배열로 변환
+16. toArray(IntFunction<T[]> generator, Class<T> componentType) 계열:
+    - toArray(IntFunction<T[]> generator, Class<T> componentType): 배열 생성기와 타입 지정하여 변환
+17. toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize) 계열:
+    - toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize): 배열 생성기, 타입, 예상 크기 지정하여 변환
+18. toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel) 계열:
+    - toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel): 병렬 처리 옵션 추가하여 변환
+19. toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel, boolean ordered) 계열:
+    - toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel, boolean ordered): 순서 보장 옵션 추가하여 변환
+20. toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel, boolean ordered, boolean distinct) 계열:
+    - toArray(IntFunction<T[]> generator, Class<T> componentType, int expectedSize, boolean parallel, boolean ordered, boolean distinct): 중복 제거 옵션 추가하여 변환
