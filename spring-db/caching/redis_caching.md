@@ -51,3 +51,9 @@ public User getUser(Long id) {
 7.`#p0`, `#p1`, ...: 메서드의 첫 번째, 두 번째, ... 인자를 참조한다.
 8.`#a0`, `#a1`, ...: `#p0`, `#p1`과 동일하다.
 9.`#argumentName`: 메서드 파라미터의 이름으로 참조한다.
+
+--- 
+
+WebFlux 애플리케이션에서 Redis 캐시를 설정할 때 사용하는 `ConnectionFactory`는 reactive 버전의 팩토리를 사용해야 할 것 같은데, 실상은 그렇지 않다.
+
+Spring의 캐시 추상화는 기본적으로 일반 스택을 기반으로 설계되어 있다. 따라서 `@Cacheable` 등의 캐시 어노테이션은 일반 `CacheManager`와 함께 사용된다. 그리고 `CacheManager`는 reactive 버전의 팩토리를 사용하지 않고 일반 팩토리를 사용한다. 따라서 `RedisConnectionFactory`를 사용해야.
