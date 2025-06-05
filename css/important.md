@@ -1,13 +1,62 @@
-## !important 선언
-CSS 스타일을 지정할 때 가끔 어떤 속성(Property)은 아주 중요해서 다른 속성보다 우선시해야 할 때가 있다.
-그런 경우 !important 키워드를 사용하면 일반적인 property: value;보다 해당 선언이 중요하다는 것을 표시한다.
+레거시 프로젝트에서 상속하는 여러 css 때문에 라디오 버튼이 렌더링되지 않는 문제가 있었다. 기존 스타일이 무너질 수 있기 때문에 그런 css 스타일을 손대는 것은 지향하려 했다. 
+이런 때에 `!important`를 사용하면 좋다. 
 
-CSS에서는 이것을 important 선언이라고 부르고 선택자의 속성과 값을 선언의 끝에 나타내는 세미콜론(;) 앞에 !important를 추가해서 property: value !mportant;처럼 표현한다.
+그런데 모달 창에 `!important`를 사용해 `visibility` 같은 가시성 설정을 덮어씌우면 모달 창을 열지 않은 상태에서도 화면에 모달 창의 요소들이 겹쳐보이는 문제가 생긴다. 
 
-이렇게 속성의 값에 !important가 선언되면 CSS 스타일 우선순위 규칙을 변경하여 일반적으로 선언한 속성의 값 보다 우선권이 부여되어 우선적으로 선택된다.
+```css
+/* 이런 스타일을 적용하면 */
+.modal_example .example_inner ul li input[type="radio"] {
+    display: inline-block !important;
+    visibility: visible !important;
+    /* ... 기타 !important 스타일들 */
+}
+```
+이런 식으로 작성하면 겹쳐보일 거다. 모달 창이 열려야 보이는 관계성 마저 덮어씌워버리기 때문이다. 따라서 모달이 visible 상태일 때만 html 요소들이 표시되도록 설정해야 한다. 
 
-> **사전에 필요로 하는 지식**
-> 
-> CSS에서 일반적으로 선언된 스타일 우선순위 규칙을 이해하고 있으면 !important 선언이 CSS 스타일 우선순위 규칙을 변경하여 일반적으로 선언한 속성의 값 보다 우선권이 부여되어 우선적으로 선택된다는 것에 대해 좀 더 쉽게 이해할 수 있다.
+```css
+div.modal_shipping.modal-visible .shipping_inner ul li input[type="radio"] {
+    -webkit-appearance: radio !important;
+    -moz-appearance: radio !important;
+    appearance: radio !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 8px 0 0 !important;
+    padding: 0 !important;
+    visibility: visible !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 1 !important;
+    border: none !important;
+    background: transparent !important;
+}
 
-레거시 프로젝트에서 라디오 버튼이 렌더링되지 않는 현상이 있을 때 이를 사용해 해결할 수 있었다.
+/* 모달이 보일 때만 라벨 표시 */
+div.modal_shipping.modal-visible .shipping_inner ul li label {
+    display: inline-block !important;
+    margin-right: 20px !important;
+    font-size: 16px !important;
+    color: #041127 !important;
+    cursor: pointer !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* 모달이 보일 때만 입력 필드 표시 */
+div.modal_shipping.modal-visible .shipping_inner ul li input[type="number"] {
+    border-radius: 5px;
+    border: 1px solid #dbdbdb;
+    width: 320px;
+    height: 40px;
+    line-height: 40px;
+    color: #777777;
+    font-size: 16px;
+    font-family: 'NotoSansKR-Regular';
+    outline: none;
+    padding: 0 12px;
+    display: block !important;
+    visibility: visible !important;
+}
+```
