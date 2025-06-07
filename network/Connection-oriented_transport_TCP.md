@@ -83,5 +83,9 @@ EstimatedRTT는 SampleRTT 값의 가중평균(weighted average)임을 유념하�
 RTT를 예측하는 것 말고도 RTT의 변화율을 측정하는 것 또한 매우 중요하다. 이를 `DevRTT`라고 부르며, 이는 `SampleRTT`가 `EstimatedRTT`로부터 얼마나 많이 벗어나는지에 대한 예측으로 정의한다.
 
 #### 재전송 타임아웃 주기의 설정과 관리
+`EstimatedRTT`보다는 크거나 같아야 하며, 또 `EstimatedRTT`보다 너무 커서도 안되(세그먼트를 잃었을 때, 세그먼트의 즉각적인 재전송을 하지 않게 됨)는 타임아웃 주기는 `EstimatedRTT`에 약간의 여윳값을 더한 값으로 설정하는 것이 바람직하다. `SampleRTT` 값에 많은 변동이 있을 땐 여윳값이 커야 하고, 변동이 작을 때는 작아야 한다. 따라서 `DevRTT` 값이 중요한 역할을 한다. 이런 모든 고려사항은 재전송 타임아웃 주기를 결정하는 TCP 방식에서 사용된다.
 
-`EstimatedRTT`보다는 크거나 같아야 하며, 또 `EstimatedRTT`보다 너무 커서도 안되(세그먼트를 잃었을 때, 세그먼트의 즉각적인 재전송을 하지 않게 됨)는 타임아웃 주기는 `EstimatedRTT`에 약간의 여윳값을 더한 값으로 설정하는 것이 바람직하다. 
+$TimeoutInterval\ =\ EstimatedRTT\ +\ 4\ \cdot\ DevRTT$
+
+초기 `TimeoutInterval`의 값은 1초가 권장된다[RFC 6298]. 또한 타임아웃이 발생할 때, `TimeoutInterval`의 값은 두 배로 해서 조만간 확인응답할 후속 세그먼트에게 발생할 수 있는 조기 타임아웃을 피하도록 한다. 그러나 세그먼트가 수신되고 `EstimatedRTT`가 수정되면 `TimeouInterval`은 다시 위의 공식에 따라 계산된다.
+
