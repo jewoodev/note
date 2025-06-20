@@ -70,3 +70,43 @@ NAT가 IP address를 rewrite할 땐 (헤더 체크섬 값과) 포트 번호도 �
 
 그리고 NAT는 포트 번호를 프로세스를 식별하는 용도로 사용하지 않고 호스트를 식별하는 용도로 사용하기 때문에, NAT로 묶인 디바이스는 서버로 사용할 수 없다는 문제점도 있다.
 
+## 6. DHCP - Dynamic Host Configuration Protocol
+하나의 호스트가 인터넷을 사용하기 위해선 다음의 정보들을 알아야 한다.
+
+1. 자신의 IP 주소
+2. 자신의 서브넷 마스크
+3. 자신의 NAT 라우터의 IP 주소
+4. 자신의 범위에 해당하는 DNS의 IP 주소
+
+고정 IP를 사용한다면 1, 2 항목은 항시 알고 있을 것이다. 하지만 와이파이를 사용한다거나 유동적으로 IP를 할당하여 비용을 절약하는 것이 DHCP로 가능하고, 그러면 IP 주소는 동적으로 할당된다.
+
+### 6.1 DHCP 서버를 통한 주소 할당 과정
+
+- **DHCP discover**: 처음에 클라이언트가 DHCP 서버에게 'DHCP discover' 를 시도한다. 이는 **DHCP discover message**를 통해 수행되며 클라이언트는 255.255.255.255(1.1.1.1, 브로드캐스트 주소) 주소로 포트 67번으로 UDP 패킷을 보낸다. source address는 아직 자신의 주소를 모르는 상태이기 때문에 0.0.0.0 으로 설정된다(포트 번호는 클라이언트가 특정 값으로 설정한다). 브로드캐스팅된 메세지는 DHCP server 에만 도달하게 되는데 그 이유는 DHCP server 만 67번 포트로 리스닝을 하고 있기 때문이다. 그리고 transaction id 값을 특정 값으로 설정해 보낸다.
+- **DHCP offer**: DHCP server 가 DHCP discover message 를 수신하면 클라이언트에게 할당한 주소를 첨부한 메시지(DHCP offer message)로 응답한다. 이때에도 다시 IP 브로드캐스트 주소 255.255.255.255를 사용해 서브넷의 모든 노드로 이 메세지를 보낸다. 서브넷에는 여러 DHCP 서버가 존재하기 때문에, 클라이언트는 여러 DHCP 제공 메세지로부터 가장 최적의 위치에 있는 DHCP 서버를 선택한다. 각각 서버 제공 메세지는 수신된 discover message의 transaction id, 클라이언트에 제공된 IP 주소, 네트워크 마스크, IP 주소 임대 기간(IP address lease time)을 포함한다. 서버를 위해 설정하는 임대 시간은 일반적으로 몇 시간 또는 며칠이다.
+- **DHCP request**: 클라이언트는 DHCP offer message 들을 확인해 하나 또는 그 이상의 서버 제공자 중에서 선택할 것이고 선택된 제공자에게 파라미터 설정으로 되돌아오는 **DHCP request message))로 응답한다. 이때도 브로드캐스트한다.
+- **DHCP ACK**: 서버는 DHCP 요청 메세지에 대해 요청된 파라미터를 확인하는 **DHCP ACK message**로 응답한다.
+
+보통 따로 DHCP 서버를 위한 호스트를 두기보다는 라우터에서 운영한다. DNS도 라우터에서, DHCP server도 라우터에서 운영하는 것이다.
+
+## 7. IP fragmentation, reassembly
+- network links have MTU(maximum transfer unit) - largest possible link - level frame
+  - different link types, different MTUs
+- large IP datagram divided("fragmented") within net
+  - one datagram becomes several datagrams
+  - "reassembled" only at final destination
+  - IP header bits used to identify, order
+
+패킷이 네트워크 경로들을 통과하던 중에 만난 링크 하나가 해당 패킷의 크기를 처리할 수 없는 링크면 그 라우터에서 바로 단편화를 한다.
+
+## 8. ICMP: internet control message protocol
+- used by hosts & routers to communicate network-level information
+  - error reporting: unreachable host, network, port, protocol
+  - echo request/reply (used by ping)
+- network-layer "above" IP
+  - ICMP msgs carried in IP datagrams
+- ICMP message: type, code plus first 8 bytes of IP datagram causing error
+
+# IPv6
+## 1. Tunneling
+IPv6를 도입한다면 IPv4와 IPv6를 함께 사용하면서 점차적으로 옮겨가는 과도기를 거치게 될 것이다. 그 과도기 동안에 두가지를 혼용하기 위한 방도가 **Tunneling**이다. IPv6 와 IPv4의 데이터그램을 모두 이해할 수 있는 IPv6 라우터를 IPv4 라우터만 있는 경로 바깥의 끝점에 두고 IPv4 라우터를 처음 만나기 전의 IPv6 라우터에서 IPv6의 데이터그램을 DATA 필드에 두고 헤더를 IPv4 방식으로 작성한다. IPv4 라우터는 IPv6의 헤더 방식을 이해할 수 없기 때문이다. 그래서 작성을 수행하는 IPv6 라우터에서 자신의 주소를 source에, IPv4 라우터들을 지나 처음 도달하게 될 IPv6 라우터의 주소를 destination 으로 작성한다.
