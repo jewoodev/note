@@ -81,7 +81,8 @@ while (rs.next()) {
 connection.createStatement("SELECT * FROM large_table")
     .execute()
     .flatMap(result -> result.map(...)) // 행별로 스트리밍 처리
-    .subscribe(); // Backpressure로 메모리 사용량 제어
+    .interval(Duration.ofMillis(10L) // Backpressure로 메모리 사용량 제어
+    .onBackpressureDrop(); 
 ```
 
 ## 5. 동시 요청 처리 방식
@@ -172,6 +173,12 @@ public class StudyParticipant {
     private long spId;
     private String spName;
     private int warning;
+
+    @Builder
+    private StudyParticipant(String spName, int warning) {
+        this.spName = spName;
+        this.warning = warning;
+    }
 }
 ```
 
@@ -201,41 +208,88 @@ public interface StudyParticipantsRepository extends ReactiveCrudRepository<Stud
 @RequiredArgsConstructor
 @Service
 public class StudyParticipantService {
-  private final StudyParticipantRepository studyParticipantRepository;
-
-  public Mono<StudyParticipant> save(StudyParticipant studyParticipant) {
-    return studyParticipantRepository.existsBySpName(studyParticipant.getSpName())
-            .flatMap(isExist -> {
-                if (isExist)
-                    return Mono.error(new DuplicatedSpNameException("This participant name has already been saved."));
-                studyParticipantRepository.save(studyParticipant);
-            });
-  }
-
-  public Mono<StudyParticipant> getBySpName(String spName) {
-    return studyParticipantRepository.findBySpName(spName);
-  }
+    private final StudyParticipantRepository studyParticipantRepository;
+    
+    public Mono<StudyParticipant> save(SaveRequest saveRequest) {
+        return studyParticipantRepository.existsBySpName(studyParticipant.getSpName())
+                .flatMap(isExist -> {
+                    if (isExist)
+                        return Mono.error(new DuplicatedSpNameException("This participant name has already been saved."));
+                    studyParticipantRepository.save(StudyParticipant.builder()
+                            .spName(saveRequest.spName())
+                            .warning(saveRequest.warning())
+                            .build());
+                });
+    }
+    
+    public Mono<StudyParticipant> getBySpName(String spName) {
+        return studyParticipantRepository.findBySpName(spName);
+    }
 }
 ```
 
 3.1 절에서 정의한 리포지토리를 사용해 데이터베이스와 상호작용하는 서비스 로직을 살펴보자. 각 메서드 코드에 대한 설명은 다음과 같다.
 
-- `existsBySpName(String spName)`
-  - 인자 `spName`과 같은 값의 spName을 갖는 레코드가 있는지 여부를 return 한다.
-- `flatMap`
-  - input sequence를 받아 새로운 inner sequence를 반환하는 오퍼레이터이다. 
-  - `existsBySpName` 을 통해 같은 이름으로 등록된 참여자가 '존재하는지'를 확인하고, 
-    - 존재한다면 
-      - `Mono.error(java.lang.Throwable error)`
-        - 구독 후 즉시 지정된 오류와 함께 종료되는 `Mono`를 생성한다. 동기 방식에서 `throw`로 에러를 던지는 것과 흡사하다.
-    - 존재하지 않으면
-      - `save(StudyParticipant studyParticipant)`
-        - 인자로 주어진 엔티티 객체를 데이터베이스에 저장하고, `Mono<'저장된 객체'>`를 return 한다.
-- `findBySpName(String spName)`
-  - 참여자 이름이 일치하는 레코드를 읽어 return 한다.  
+- `save(SaveRequest saveRequest)`
+  - 저장 요청된 `StudyParticipant` 엔티티 객체를 저장하기 전에 해당 객체의 `spName` 값이 이미 저장된 적이 있는지 확인하고 없다면 저장한다. 있다면 중복된 `spName`로 요청되었음을 명시하는 에러를 발생시킨다. 
+    - `repository.existsBySpName(String spName)` 메서드는 인자 `spName`과 같은 값의 spName을 갖는 레코드가 있는지 여부를 return 한다.
+    - `flatMap`
+      - input sequence를 받아 새로운 inner sequence를 반환하는 오퍼레이터이다. 
+      - `repository.existsBySpName(...)` 을 통해 같은 이름으로 등록된 참여자가 '존재하는지'를 확인하고, 
+        - 존재한다면 
+          - `Mono.error(java.lang.Throwable error)` 를 리턴한다.
+            - 이 메서드는 구독 후 즉시 지정된 오류와 함께 종료되는 `Mono`를 생성한다. 동기 방식에서 `throw`로 에러를 던지는 것과 흡사하다.
+        - 존재하지 않으면
+          - `repository.save(StudyParticipant studyParticipant)` 를 리턴한다. 
+            - 이 메서드는 인자로 주어진 엔티티 객체를 데이터베이스에 저장하고, `Mono<'저장된 엔티티 객체'>`를 return 한다.
+- `repository.findBySpName(String spName)`
+  - 참여자 이름이 일치하는 레코드를 읽어 엔티티 객체로 return 한다.
 
 
 ## 4. `R2dbcEntityTemplate`을 이용한 데이터 액세스
 R2DBC는 `JdbcTemplate`처럼 템플릿/콜백 패턴이 적용된 `R2dbcEntityTemplate`을 제공한다. `R2dbcEntityTemplate`는 Spring Data R2DBC의 central entrypoint(`insert()`, `select()`, `update()`) 이다. 이 기능으로 R2DBC는 데이터 쿼리, 삽입, 업데이트, 삭제와 같은 일반적인 임시 사용 사례에 대해 엔티티 중심의 직접적인 메서드와 더욱 간결하고 유연한 인터페이스를 제공한다.
 
-모든 terminal(끝에 위치하는) method는 
+`R2dbcEntityTemplate` entrypoint로 시작되는 스트림의 모든 terminal(끝에 위치하는) method는 그 다음의 작업을 처리하기에 적합한 `Publisher` 를 return 한다. 이게 무슨 말인가 하면, terminal method 중 하나인 `all()` method는 하나의 sequence가 아닌 여러 개의 sequence를 emit하는 `Flux`(`Publisher`)를 return 한다. 
+
+```java
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class StudyParticipantService {
+    private final R2dbcEntityTemplate template;
+
+    public Mono<StudyParticipant> save(SaveRequest saveRequest) {
+        return existsBySpName(saveRequest.spName())
+                .flatMap(exists -> {
+                    if (exists) {
+                        return Mono.error(new DuplicatedSpNameException("duplicated sp name"));
+                    }
+                    return template.insert(StudyParticipant.builder()
+                            .spName(saveRequest.spName())
+                            .warning(saveRequest.warning())
+                            .build());
+                });
+    }
+
+    private Mono<Boolean> existsBySpName(String spName) {
+        return template.exists(query(where("sp_name").is(spName)), StudyParticipant.class);
+    }
+
+    public Mono<StudyParticipant> getBySpName(String spName) {
+        return template.selectOne(query(where("sp_name").is(spName)), StudyParticipant.class);
+    }
+}
+```
+
+3.2 절의 Repository API를 이용한 Data Access 코드를 template 코드로 바꾼 예시이다. R2dbcEntityTemplate로 데이터베이스와 상호작용하는 방법을 살펴보자.
+
+- `template.exists(Query query)`
+  - 이 메서드는 쿼리의 결과가 하나 이상의 결과를 갖는지 여부를 반환하며, 인자로 `Query` 받는다.
+    - `Query` 객체는 `Query.query(...)` 에 Criteria 객체를 인자로 넘겨주어 생성할 수 있다.
+      - `where(...)` 메서드는 SQL에서 WHERE 절을 표현하는 Criteria 객체이다.
+    - `is(...)` 메서드는 SQL에서 `=` 를 표현한다.
+- `template.insert(...)`
+  - 인자로 엔티티 클래스의 인스턴스를 넘겨주면 해당 엔티티 클래스에 해당하는 테이블에 레코드를 삽입한다.
+- `template.selectOne(Query query)`
+  - 이 메서드는 한 건의 데이터를 조회하는 데에 사용되며, 인자로 `Query` 를 받는다.
+
