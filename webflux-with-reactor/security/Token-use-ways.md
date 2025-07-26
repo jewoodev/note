@@ -1,0 +1,1 @@
+클라이언트 단에서 토큰은 로그인 페이지에서 `localStorage.setItem()`으로 저장했다가, `localStorage.getItem()`으로 꺼내서 사용하는 방법이 유용하더라. 주먹구구 식으로 빠르게 기능 구현에 중점을 둬서 정확하지 않으나 localStorage는 import하거나 생성할 필요없이 바로 호출이 가능한 객체같다. 다른 URL이나 문서로 넘어갈 때
