@@ -1,0 +1,1 @@
+시큐리티 컨텍스트에 write된 `Authentication`은 새로운 인스턴스를 생성해 복사하도록 구현되곤 한다. 그리고 `UserDetails` 구현체도 `UserDetailsService`를 통해 찾아낸 `User` 객체를 통해 새로운 인스턴스를 생성해 사용된다. write 이전에 생성한 `UserDetails` 구현체와 인증 이후 컨텍스트에서 꺼내온 `UserDetails` 구현체는 다른 인스턴스임에 유의하자.
