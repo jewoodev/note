@@ -12,7 +12,7 @@
 예를 들어, 소스 토픽과 싱크 토픽(저장하는 토픽)의 카프카 클러스터가 서로 다른 경우는 스트림즈로 구현할 수 없어 컨슈머 & 프로듀서 조합으로 직접 클러스터를 지정하는 개발 방식을 사용할 필요가 있다.
 
 ## 스트림즈 내부 구조
-![streams-inner-structure.png](../../../blog-img/kafka/streams/streams-inner-structure.png)
+![streams-inner-structure.png](https://github.com/jewoodev/blog-img/blob/main/kafka/streams/streams-inner-structure.png?raw=true)
 
 스트림즈 애플리케이션은 내부적으로 스레드를 1개 이상 생성할 수 있으며, 스레드는 1개 이상의 태스크를 가진다.  
 '**태스크**'는 스트림즈 애플리케이션을 실행하면 생기는 데이터 처리 **최소 단위** 이다. 만약 3개의 파티션으로 이루어진 토픽을 처리하는 스트림즈 애플리케이션을 실행하면 내부에 3개의 태스크가 생긴다. 컨슈머의 병렬 처리를 위해 컨슈머 그룹으로 이루어진 컨슈머 스레드를 여러 개 실행하는 것과 비슷하다고 할 수 있다.  
@@ -20,17 +20,17 @@
 카프카 스트림즈는 컨슈머 스레드를 늘리는 방법과 동일하게 파티션과 스트림즈 스레드(또는 프로세스) 개수를 늘려 병렬 처리로 처리량을 늘릴 수 있다.
 
 ## 스트림즈 애플리케이션 스케일 아웃
-![streams-scale-out.png](../../../blog-img/kafka/streams/streams-scale-out.png)
+![streams-scale-out.png](https://github.com/jewoodev/blog-img/blob/main/kafka/streams/streams-scale-out.png?raw=true)
 
 실제 운영환경에서는 장애가 발생하더라도 안정적으로 운영할 수 있도록 2개 이상의 서버로 구성하여 스트림즈 애플리케이션을 운영한다. 이를 통해 일부 '스트림즈 애플리케이션' 또는 '애플리케이션이 실행되는 서버'에 장애가 발생하더라도 안전하게 스트림 처리를 할 수 있다.
 
 ## 토폴로지
-![topology.png](../../../blog-img/kafka/streams/topology.png)
+![topology.png](https://github.com/jewoodev/blog-img/blob/main/kafka/streams/topology.png?raw=true)
 
 카프카 스트림즈의 구조와 사용 방법을 알기 전에 스트림즈가 사용하는 토폴로지가 무엇인지 알아보자. 스트림즈는 트리 형태와 유사한 토폴로지를 사용한다.
 
 ## 프로세서와 스트림
-![processor-and-stream.png](../../../blog-img/kafka/streams/processor-and-stream.png)
+![processor-and-stream.png](https://github.com/jewoodev/blog-img/blob/main/kafka/streams/processor-and-stream.png?raw=true)
 
 카프카 스트림즈에서 토폴로지의 노드를 하나의 '**프로세서**'라고 부르고 노드와 노드 사이를 이은 선을 '**스트림**'이라고 부른다. 스트림은 토픽의 데이터를 뜻하는 데 프로듀서와 컨슈머에서의 레코드와 동일한 개념이다.
 
