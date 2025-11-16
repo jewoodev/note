@@ -1,15 +1,15 @@
 컨슈머 랙은 우리가 컨슈머 애플리케이션을 운영할 때, 나아가서는 전체 데이터 파이프라인을 운영할 때 가장 중요한 지표 중 하나이다. 이걸 모니터링 하지 않는다면 우리는 데이터 처리가 정상적으로 되지 않고 있는 것이나 다름없다고 할 수 있을 정도이다.
 
-![consumer-lag1.png](../../../blog-img/kafka/consumer-application/consumer-lag/consumer-lag1.png)
+![consumer-lag1.png](https://github.com/jewoodev/blog-img/blob/main/kafka/consumer-application/consumer-lag/consumer-lag1.png?raw=true)
 
 컨슈머 랙(LAG)은 파티션의 **최신 오프셋**(LOG-END-OFFSET)과 **컨슈머 오프셋**(CURRENT-OFFSET)간의 **차이**다. 따라서 컨슈머 랙이 커진다면 지연이 커지고 있다는 게 되며, 반대로 랙이 작아진다면 지연이 적어지고 있다는 게 된다. 이러한 컨슈머 랙을 통해 컨슈머가 정상 동작하는지 여부를 확인할 수 있는 것이기 때문에 컨슈머 애플리케이션을 운영한다면 필수적으로 모니터링해야 되는 것이다.
 
-![consumer-lag2.png](../../../blog-img/kafka/consumer-application/consumer-lag/consumer-lag2.png)
+![consumer-lag2.png](https://github.com/jewoodev/blog-img/blob/main/kafka/consumer-application/consumer-lag/consumer-lag2.png?raw=true)
 
 컨슈머 랙은 컨슈머 **그룹**, **토픽**, **파티션** 별로 생성된다. 그리고 하나의 컨슈머 그룹마다 별도의 컨슈머 랙이 생성된다. 그래서 1개의 토픽에 3개의 파티션이 있고 2개의 컨슈머 그룹이 토픽을 구독한다면 총 6개의 컨슈머 랙이 생성된다.
 
 ## 프로듀서와 컨슈머의 데이터 처리량의 차이
-![consumer-lag3.png](../../../blog-img/kafka/consumer-application/consumer-lag/consumer-lag3.png)
+![consumer-lag3.png](https://github.com/jewoodev/blog-img/blob/main/kafka/consumer-application/consumer-lag/consumer-lag3.png?raw=true)
 
 프로듀서가 **보내는 데이터 양**이 컨슈머의 **데이터 처리량**보다 커지면 컨슈머 랙이 늘어난다. 이러한 관점에서 컨슈머 랙의 늘어남은 컨슈머가 정상적으로 데이터를 처리하지 못하고 있다는 것을 알려준다.
 
@@ -22,7 +22,7 @@
 이런 경우에는 컨슈머 랙을 줄이기 위해 일시적으로 파티션 개수와 컨슈머 개수를 늘려 병렬처리량을 늘리는 방법을 사용할 수 있다.
 
 ## 컨슈머 랙 모니터링 - 파티션 이슈
-![consumer-partition-issue.png](../../../blog-img/kafka/consumer-application/consumer-lag/consumer-partition-issue.png)
+![consumer-partition-issue.png](https://github.com/jewoodev/blog-img/blob/main/kafka/consumer-application/consumer-lag/consumer-partition-issue.png?raw=true)
 
 프로듀서의 데이터양이 일정하더라도 컨슈머의 장애로 컨슈머 랙이 증가할 수도 있다. 그럼 일단 컨슈머의 개수를 파티션 개수만큼 늘려서 각 파티션의 처리 경과를 지켜본 후 컨슈머 랙이 늘어나는 파티션을 확인하여 원인을 파악하자.
 
