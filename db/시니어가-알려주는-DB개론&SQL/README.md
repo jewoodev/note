@@ -1,0 +1,2 @@
+- 아래의 강의에서 공부한 것을 정리하는 공간이다.
+- [시니어 백엔드 개발자가 알려주는 데이터베이스 개론 & SQL](https://www.inflearn.com/course/%EB%B0%B1%EC%97%94%EB%93%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EA%B0%9C%EB%A1%A0/dashboard)
