@@ -1,3 +1,11 @@
+```sql
+SELECT *
+FROM dental_orders o
+WHERE o.lab_id IN (
+    SELECT lab_id FROM lab_assignments WHERE status = 'active'
+);
+```
+
 - IN 서브쿼리와 비교했을 때 EXISTS 서브쿼리가 메모리 절감 효과를 갖는 이유는 뭘까?
   - IN 서브쿼리
     - 서브쿼리 결과를 모두 메모리에 로드
