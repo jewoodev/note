@@ -66,7 +66,7 @@ MMU는 limit register(해당 프로세스가 할당받는 메모리 공간의 �
 
 ## NonContiguous allocation
 
-[paging](./paging.md)
+[paging](paging.md)
 
-[segment](./segmentation.md)
+[segment](segmentation.md)
 
