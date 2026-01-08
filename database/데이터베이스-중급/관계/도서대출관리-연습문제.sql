@@ -7,30 +7,33 @@ CREATE TABLE library (
 );
 
 CREATE TABLE bookshelf (
-    library_id SMALLINT UNSIGNED NOT NULL,
     bookshelf_id SMALLINT UNSIGNED NOT NULL,
+    library_id SMALLINT UNSIGNED NOT NULL,
     bookshelf_name VARCHAR(30) NOT NULL,
-    PRIMARY KEY (library_id, bookshelf_id),
+    PRIMARY KEY (bookshelf_id),
+    UNIQUE KEY uk_bookshelf (library_id, bookshelf_id),
     CONSTRAINT fk_bookshelf_library FOREIGN KEY (library_id) REFERENCES library(library_id)
 );
 
 CREATE TABLE layer (
+    layer_id TINYINT UNSIGNED NOT NULL,
     library_id SMALLINT UNSIGNED NOT NULL,
     bookshelf_id SMALLINT UNSIGNED NOT NULL,
-    layer_id TINYINT UNSIGNED NOT NULL,
     layer_name VARCHAR(50) NULL,
-    PRIMARY KEY (library_id, bookshelf_id, layer_id),
+    PRIMARY KEY (layer_id),
+    UNIQUE KEY uk_layer (library_id, bookshelf_id, layer_id),
     CONSTRAINT fk_layer_bookshelf FOREIGN KEY (library_id, bookshelf_id)
         REFERENCES bookshelf(library_id, bookshelf_id)
 );
 
 CREATE TABLE block ( -- 하나의 layer에 있는 칸
+    block_id TINYINT UNSIGNED NOT NULL,
     library_id SMALLINT UNSIGNED NOT NULL,
     bookshelf_id SMALLINT UNSIGNED NOT NULL,
     layer_id TINYINT UNSIGNED NOT NULL,
-    block_id TINYINT UNSIGNED NOT NULL,
     block_number TINYINT UNSIGNED,
-    PRIMARY KEY (library_id, bookshelf_id, layer_id, block_id),
+    PRIMARY KEY (block_id),
+    UNIQUE KEY uk_block (library_id, bookshelf_id, layer_id, block_id),
     CONSTRAINT fk_block_layer FOREIGN KEY (library_id, bookshelf_id, layer_id)
         REFERENCES layer(library_id, bookshelf_id, layer_id)
 );
