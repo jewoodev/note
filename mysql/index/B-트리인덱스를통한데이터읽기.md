@@ -8,7 +8,7 @@
 ```sql
 SELECT * FROM employee WHERE first_name BETWEEN 'Jewoo' AND 'Seokwon';
 ```
-<img src="인덱스를_이용한_레인지_스캔">
+<img src="https://github.com/jewoodev/blog-img/blob/main/mysql/index/B-%ED%8A%B8%EB%A6%AC%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC%ED%86%B5%ED%95%9C%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%BD%EA%B8%B0/%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EB%A0%88%EC%9D%B8%EC%A7%80_%EC%8A%A4%EC%BA%94.png?raw=true">
 인덱스 레인지 스캔은 검색해야 할 인덱스의 범위가 결정됐을 때 사용하는 방식이다. 검색하려는 값의 수나 검색 결과 레코드 건수와 관계없이 레인지 스캔이라고 표현한다.   
 위의 그림의 화살표에서 알 수 있듯 루트 노드에서부터 비교를 시작해 브랜치 노드를 거치고 최종적으로 리프 노드까지 찾아 들어가야만 비로소 읽으려는 레코드 위치를 찾을 수 있다. 그 위치를 찾으면 그때부터는 리프 노드의 레코드만 순서대로 읽으면 된다.   
 
@@ -17,7 +17,7 @@ SELECT * FROM employee WHERE first_name BETWEEN 'Jewoo' AND 'Seokwon';
 
 위의 그림은 실제 인덱스만을 읽는 경우를 나타내고 있다. 하지만 B-Tree 인덱스를 리프 노드를 스캔하면서 실제 데이터 파일의 레코드를 읽어 와야 하는 경우도 많은데, 이 과정을 좀 더 자세히 살펴보자.
 
-<img src="인덱스_레인지_스캔을_통한_데이터_레코드_읽기">
+<img src="https://github.com/jewoodev/blog-img/blob/main/mysql/index/B-%ED%8A%B8%EB%A6%AC%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC%ED%86%B5%ED%95%9C%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%BD%EA%B8%B0/%EC%9D%B8%EB%8D%B1%EC%8A%A4_%EB%A0%88%EC%9D%B8%EC%A7%80_%EC%8A%A4%EC%BA%94%EC%9D%84_%ED%86%B5%ED%95%9C_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EB%A0%88%EC%BD%94%EB%93%9C_%EC%9D%BD%EA%B8%B0.png?raw=true">
 B-Tree 인덱스에서 스캔 시작 위치를 찾아서, 그 지점부터 필요한 방향(오름차순 또는 내림차순)으로 인덱스를 읽어나가는 것을 위의 사진에서 확인할 수 있다.  
 
 여기서 중요한 건 인덱스를 읽는 방식은 인덱스 레인지 스캔이 아니더라도 동일하게, 사진처럼 해당 인덱스를 구성하는 컬럼의 정순 또는 역순으로 정렬된 상태로 레코드를 가져온다.  
