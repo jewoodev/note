@@ -1,7 +1,6 @@
 # Context: Anthropic's Multi-Agent Harness for Long-Running Autonomous Coding
 
-> Source: Anthropic Engineering Blog, "Harness design for long-running application development" by Prithvi Rajasekaran (Anthropic Labs), published March 24, 2026.
-> Purpose: This document provides complete context so that an AI agent can discuss, analyze, or answer questions about this article without accessing the original.
+> Source: Anthropic Engineering Blog, [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
 ---
 
@@ -217,7 +216,3 @@ The evaluator's value is relative to model capability:
 - **Tech stacks generated:** React + Vite + FastAPI + SQLite/PostgreSQL
 - **Models discussed:** Claude Sonnet 4.5, Claude Opus 4.5, Claude Opus 4.6
 - **Related Anthropic publications:** "Building Effective Agents," "Effective context engineering for AI agents," "Effective harnesses for long-running agents"
-
----
-
-*Original text: [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Anthropic Engineering Blog*

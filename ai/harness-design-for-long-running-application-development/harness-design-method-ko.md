@@ -1,6 +1,6 @@
 # 컨텍스트: Anthropic의 장시간 자율 코딩을 위한 멀티 에이전트 하네스
 
-> 출처: Anthropic Engineering Blog, "Harness design for long-running application development", Prithvi Rajasekaran (Anthropic Labs) 저, 2026년 3월 24일 게시.
+> 출처: Anthropic Engineering Blog, [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 
 ---
 
@@ -216,7 +216,3 @@ V1 하네스는 효과적이었지만 무겁고, 느리고, 비쌌다. 하네스
 - **생성된 기술 스택:** React + Vite + FastAPI + SQLite/PostgreSQL
 - **논의된 모델:** Claude Sonnet 4.5, Claude Opus 4.5, Claude Opus 4.6
 - **관련 Anthropic 출판물:** "Building Effective Agents," "Effective context engineering for AI agents," "Effective harnesses for long-running agents"
-
----
-
-*원문: [장시간 실행 애플리케이션 개발을 위한 하네스 설계](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Anthropic Engineering Blog*

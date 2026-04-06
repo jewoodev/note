@@ -1,5 +1,7 @@
 # Long-Running AI Agent Harness: Implementation Guide
 
+> Source: [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+
 ## What This Document Is
 
 This is a self-contained implementation guide for building a harness that enables an AI coding agent to work effectively across many sessions on a single project. Follow this guide directly — no external references are required.

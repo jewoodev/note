@@ -2,7 +2,7 @@
 
 > 이 문서는 그 자체로 완결된 참고 자료입니다. 추가적인 자료는 필요하지 않습니다.
 
-> 출처: 인류 응용 AI 팀의 컨텍스트 엔지니어링 프레임워크(2025).
+> 출처: [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 
 ---
 
@@ -182,7 +182,3 @@
 - **능력 있는 모델은 능력을 발휘하도록 하십시오.** 모델이 개선됨에 따라, 정의를 줄이고 자율성을 높이십시오.
 - **컨텍스트 창을 더 크게 만든다고 해서 이러한 문제가 해결되는 것은 아닙니다.** 컨텍스트 노후화와 주의력 저하는 아키텍처적인 문제이며, 단순히 용량의 문제가 아닙니다.
 - **"효과가 있는 가장 간단한 것을 하십시오."** 빠르게 변화하는 분야에서는 이것이 최선의 기본 전략입니다.
-
----
-
-*원문: [AI 에이전트를 위한 효과적인 컨텍스트 엔지니어링](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — 앤트로픽 엔지니어링 블로그*

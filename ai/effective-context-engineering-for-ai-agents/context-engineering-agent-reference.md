@@ -1,7 +1,7 @@
 # Context Engineering for AI Agents — Operational Knowledge Base
 
 > This document is a self-contained reference. No additional reading is required.
-> Source concept: Anthropic Applied AI team's framework for context engineering (2025).
+> Reference: [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 
 ---
 
@@ -180,7 +180,3 @@ When building or configuring an agent, use this checklist:
 - **Let capable models be capable.** As models improve, prescribe less and enable more autonomy.
 - **Even larger context windows won't eliminate these concerns.** Context rot and attention degradation are architectural, not just a matter of capacity.
 - **"Do the simplest thing that works"** is the best default strategy in a fast-moving field.
-
----
-
-*Original text: [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — Anthropic Engineering Blog*

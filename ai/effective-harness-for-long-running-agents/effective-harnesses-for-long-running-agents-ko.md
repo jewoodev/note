@@ -1,6 +1,6 @@
 # 장기 실행 에이전트를 위한 효과적인 하네스
 
-*게시일: 2025년 11월 26일*
+> 출처: [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 
 > 에이전트는 여전히 여러 컨텍스트 윈도우에 걸쳐 작업할 때 어려움을 겪고 있습니다. 우리는 장기 실행 에이전트를 위한 더 효과적인 하네스를 만들기 위해 인간 엔지니어에게서 영감을 얻었습니다.
 
@@ -135,5 +135,3 @@ Justin Young이 작성했습니다. David Hershey, Prithvi Rajasakeran, Jeremy H
 1. 여기서 이들을 별도의 에이전트라고 부르는 것은 초기 사용자 프롬프트가 다르기 때문입니다. 시스템 프롬프트, 도구 세트, 전체 에이전트 하네스는 동일했습니다.
 
 ---
-
-*원문: [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Anthropic Engineering Blog*
