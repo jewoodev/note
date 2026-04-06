@@ -220,4 +220,4 @@ The evaluator's value is relative to model capability:
 
 ---
 
-*Original text: [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Anthropic Engineering Blog*
+*Original text: [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Anthropic Engineering Blog*
