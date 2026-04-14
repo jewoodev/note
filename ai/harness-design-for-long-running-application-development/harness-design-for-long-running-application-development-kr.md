@@ -3,7 +3,7 @@
 > 원문: [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (2026년 3월 24일 게시)
 > 저자: Prithvi Rajasekaran (Anthropic Labs 팀)
 
-하네스 설계는 에이전틱 코딩의 최전선에서 성능을 좌우하는 핵심 요소다. 이 글은 Claude를 프론트엔드 디자인과 장시간 자율 소프트웨어 엔지니어링 영역에서 더 멀리 밀어붙이기 위해 어떤 접근을 취했는지를 다룬다.
+``하네스 설계는 에이전틱 코딩의 최전선에서 성능을 좌우하는 핵심 요소다. 이 글은 Claude를 프론트엔드 디자인과 장시간 자율 소프트웨어 엔지니어링 영역에서 더 멀리 밀어붙이기 위해 어떤 접근을 취했는지를 다룬다.
 
 ---
 
