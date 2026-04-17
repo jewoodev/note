@@ -1,0 +1,2 @@
+- companion object의 위치
+  - 클래스 바디의 가장 아래 
