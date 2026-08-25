@@ -461,22 +461,3 @@ groupingBy()로 그룹화를 하면 기본적으로 List<T>에 담는다. 만일
 ```java
 Map<Integer, HashSet<Student>> stuByHak = stuStream.collect(groupingBy(Student::getHak, toCollection(HashSet::new)));
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
