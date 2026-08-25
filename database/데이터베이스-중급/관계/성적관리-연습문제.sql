@@ -81,6 +81,11 @@ GROUP BY table_name;
 INSERT INTO school_year (school_year_name)
 VALUES ('1학년'), ('2학년'), ('3학년');
 
+SELECT * FROM school_year;
+
+INSERT INTO class (school_year_id,)
+VALUES ();
+
 -- deprecated
 
 # DELIMITER $$

@@ -138,3 +138,15 @@ VALUES
 # FROM rental r
 # JOIN member m ON r.member_id = m.member_id
 # JOIN book_basic_list b ON r.book_id = b.book_id;
+
+EXPLAIN
+SELECT *
+FROM book
+WHERE library_id = 1;
+
+SHOW INDEX
+FROM book;
+
+SELECT *
+FROM information_schema.tables
+WHERE table_schema = 'book_rental_management';
