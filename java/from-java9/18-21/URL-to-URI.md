@@ -1,0 +1,1 @@
+JDK 20 에서부터 `java.net.URL`이 deprecated 되고 `java.net.URI`를 그걸 대체하는 객체로 소개되고 있는데 그 이유가 뭔지 알아보자. 
