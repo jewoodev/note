@@ -1,4 +1,6 @@
-# filter & map
+# 컬렉션을 함수형으로 다루는 방법
+
+## filter & map
 ```kotlin
 // 함수를 인자로 받는 filter 함수를 사용하여 20세 이상인 학생 필터링
 val jewoo = students.filter { it.name == "Jewoo" } // students는 Collection
@@ -22,7 +24,7 @@ val jewooNameWithIndex = students.filter { it.age >= 20 }.mapIndexed { index, st
 val jewooNameNotNull = students.filter { it.age >= 20 }.mapNotNull { it.name }
 ```
 
-# 다양한 컬렉션 처리 기능
+## 다양한 컬렉션 처리 기능
 - all
   - 조건을 모두 만족하면 true / 그렇지 않으면 false
     ```kotlin
