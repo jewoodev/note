@@ -38,14 +38,9 @@ ERP는 이때 데이터베이스에 ‘실행 거절’(`DENIED`)을 저장한 �
 
 비서가 다시 시도하는 범위는 **ERP에 실행 판정을 확인하는 호출**까지다. 이미 카카오톡에서 전송을 시도했고 결과를 확인할 수 없는 경우, 비서는 그 채팅방에 자동으로 다시 보내지 않는다.
 
-## 이 판단의 비용
+## 이 판단이 만드는 비용
 
 이 선택으로 제때 보낼 수 있었던 공지가 빠질 수 있다. 첫 실행 요청을 잠시 보류하고 AWS에서 일정 생성 결과를 더 확인하는 방법도 있다. 그 방법을 택하려면 얼마나 기다릴지, 기다리는 동안 접수된 취소는 어떻게 처리할지, 늦게 확인한 성공을 어느 시점까지 반영할지 정해야 한다. 이번에는 첫 실행 요청을 처리할 때 ERP에 등록 성공이 저장돼 있지 않으면 그 예약 버전의 전송을 끝내기로 했다.
 
 이 기능을 만들면서 배운 건 **실패했을 때 무엇을 다시 할 수 있는지부터 정하면 시스템 사이에서 어떤 정보를 남겨야 하는지 보인다**는 점이다. 큐는 비서가 어느 예약을 확인할지 알려주고, ERP는 그 예약을 실행해도 되는지 결정한다. 두 역할을 나누고 실행 ID를 먼저 저장해 둔 덕분에, 응답을 잃었을 때 비서는 같은 결정을 다시 확인할 수 있다.
 
-## 구현 참고
-
-- ERP에서 스케줄러를 호출하고 늦은 응답을 반영하는 흐름은 [예약 서비스](https://github.com/icar-mobility/icar-erp/blob/1d27479028d628f312a5a28323dd6c7197b74505/backend/src/main/kotlin/com/icar/erp/dailytransfer/application/service/DailyTransferBookingService.kt#L79)에 있다.
-- ERP의 상태별 허가 판정과 확정본 조회 조건은 [실행 권한 서비스](https://github.com/icar-mobility/icar-erp/blob/1d27479028d628f312a5a28323dd6c7197b74505/backend/src/main/kotlin/com/icar/erp/dailytransfer/application/service/DailyTransferExecutionService.kt#L21)에 있다.
-- 전송 서비스의 실행 ID 저장, SQS 재전달과 기기 작업 인계는 [비서의 실행 구현 문서](https://github.com/icar-mobility/icar-ai-secretary/blob/5c88999f5fb68be6b3567791e39ee1c0630aa401/docs/plan/daily-transfer-katalk/reservation-execution-implementation.md#실행과-복구)에 정리했다.
